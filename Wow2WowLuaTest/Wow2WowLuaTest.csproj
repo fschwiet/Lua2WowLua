@@ -60,6 +60,18 @@
     <EmbeddedResource Include="SampleFiles\telescope.lua" />
     <EmbeddedResource Include="SampleFiles\tsc" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scenarios\SharedRequireModule\expected.lua" />
+    <EmbeddedResource Include="Scenarios\SharedRequireModule\main.lua" />
+    <EmbeddedResource Include="Scenarios\SharedRequireModule\other.lua" />
+    <EmbeddedResource Include="Scenarios\SharedRequireModule\shared.lua" />
+    <EmbeddedResource Include="Scenarios\SimpleRequireModule\expected.lua" />
+    <EmbeddedResource Include="Scenarios\SimpleRequireModule\include.lua" />
+    <EmbeddedResource Include="Scenarios\SimpleRequireModule\main.lua" />
+    <EmbeddedResource Include="Scenarios\SimpleRequire\expected.lua" />
+    <EmbeddedResource Include="Scenarios\SimpleRequire\include.lua" />
+    <EmbeddedResource Include="Scenarios\SimpleRequire\main.lua" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
