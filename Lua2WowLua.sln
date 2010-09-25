@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lua2WowLua", "Lua2WowLua\Lua2WowLua.csproj", "{B946CD01-EB4B-4837-8440-163B35932F27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wow2WowLuaTest", "Wow2WowLuaTest\Wow2WowLuaTest.csproj", "{280D5C70-C47C-47A9-8CF5-0DB7F6965C3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B946CD01-EB4B-4837-8440-163B35932F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B946CD01-EB4B-4837-8440-163B35932F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B946CD01-EB4B-4837-8440-163B35932F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B946CD01-EB4B-4837-8440-163B35932F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{280D5C70-C47C-47A9-8CF5-0DB7F6965C3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{280D5C70-C47C-47A9-8CF5-0DB7F6965C3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{280D5C70-C47C-47A9-8CF5-0DB7F6965C3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{280D5C70-C47C-47A9-8CF5-0DB7F6965C3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
