@@ -9,14 +9,14 @@ namespace Lua2WowLua
 {
     public class Generator
     {
+        readonly IFileFinder _fileFinder;
         const string TabString = "    ";
 
-        Dictionary<string, Stream> _availableFiles = new Dictionary<string, Stream>();
         Dictionary<string, string> _loadedModules = new Dictionary<string, string>();
 
-        public void AddFile(string name, Stream file)
+        public Generator(IFileFinder fileFinder)
         {
-            _availableFiles[name] = file;
+            _fileFinder = fileFinder;
         }
 
         public string Process(Stream file)
@@ -46,7 +46,7 @@ namespace Lua2WowLua
 
                     if (!_loadedModules.ContainsKey(requireLocation))
                     {
-                        ProcessFile(requireLocation, _availableFiles[requireLocation], result, 1);
+                        ProcessFile(requireLocation, _fileFinder.Get(requireLocation), result, 1);
                     }
 
                     if (_loadedModules.ContainsKey(requireLocation))

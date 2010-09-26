@@ -27,8 +27,9 @@ namespace Wow2WowLuaTest
             var includeFile = GetScenarioFile("SimpleRequire.include.lua");
             var expectedFile = new StreamReader(GetScenarioFile("SimpleRequire.expected.lua")).ReadToEnd();
 
-            Generator sut = new Generator();
-            sut.AddFile("include", includeFile);
+            FileCollection fileFinder = new FileCollection();
+            fileFinder.AddFile("include", includeFile);
+            Generator sut = new Generator(fileFinder);
 
             var result = sut.Process(mainFile);
 
@@ -42,8 +43,9 @@ namespace Wow2WowLuaTest
             var includeFile = GetScenarioFile("SimpleRequireModule.include.lua");
             var expectedFile = new StreamReader(GetScenarioFile("SimpleRequireModule.expected.lua")).ReadToEnd();
 
-            Generator sut = new Generator();
-            sut.AddFile("include", includeFile);
+            FileCollection fileFinder = new FileCollection();
+            fileFinder.AddFile("include", includeFile);
+            Generator sut = new Generator(fileFinder);
 
             var result = sut.Process(mainFile);
 
@@ -58,13 +60,13 @@ namespace Wow2WowLuaTest
             var sharedFile = GetScenarioFile("SharedRequireModule.shared.lua");
             var expectedFile = new StreamReader(GetScenarioFile("SharedRequireModule.expected.lua")).ReadToEnd();
 
-            Generator sut = new Generator();
-            sut.AddFile("other", otherFile);
-            sut.AddFile("shared", sharedFile);
+            FileCollection fileFinder = new FileCollection();
+            fileFinder.AddFile("other", otherFile);
+            fileFinder.AddFile("shared", sharedFile);
+            Generator sut = new Generator(fileFinder);
 
             var result = sut.Process(mainFile);
 
-            Console.WriteLine(result);
             Assert.That(result, Is.EqualTo(expectedFile));
         }
     }

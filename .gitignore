@@ -8,3 +8,4 @@ _ReSharper.*
 *.aps
 *.suo
 *.sln.cache
+InstallUtil.InstallLog
