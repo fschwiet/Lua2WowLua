@@ -53,8 +53,8 @@ namespace Wow2WowLuaTest
         [Test]
         public void shared_require_module()
         {
-            var mainFile = GetScenarioFile("SharedRequireModule.main.lua");
-            var otherFile = GetScenarioFile("SharedRequireModule.other.lua");
+            var mainFile =   GetScenarioFile("SharedRequireModule.main.lua");
+            var otherFile =  GetScenarioFile("SharedRequireModule.other.lua");
             var sharedFile = GetScenarioFile("SharedRequireModule.shared.lua");
             var expectedFile = new StreamReader(GetScenarioFile("SharedRequireModule.expected.lua")).ReadToEnd();
 
@@ -64,6 +64,7 @@ namespace Wow2WowLuaTest
 
             var result = sut.Process(mainFile);
 
+            Console.WriteLine(result);
             Assert.That(result, Is.EqualTo(expectedFile));
         }
     }

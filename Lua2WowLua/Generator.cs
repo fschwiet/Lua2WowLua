@@ -12,6 +12,7 @@ namespace Lua2WowLua
         const string TabString = "    ";
 
         Dictionary<string, Stream> _availableFiles = new Dictionary<string, Stream>();
+        Dictionary<string, string> _loadedModules = new Dictionary<string, string>();
 
         public void AddFile(string name, Stream file)
         {
@@ -22,12 +23,12 @@ namespace Lua2WowLua
         {
             StringBuilder result = new StringBuilder();
 
-            ProcessFile(file, result, 0);
+            ProcessFile(null, file, result, 0);
 
             return result.ToString();
         }
 
-        void ProcessFile(Stream file, StringBuilder result, int depth)
+        void ProcessFile(string location, Stream file, StringBuilder result, int depth)
         {
             string line;
             var reader = new StreamReader(file);
@@ -41,7 +42,20 @@ namespace Lua2WowLua
 
                 if (require.Success)
                 {
-                    ProcessFile(_availableFiles[require.Groups["name"].Value], result, depth+1);
+                    var requireLocation = require.Groups["name"].Value;
+
+                    if (!_loadedModules.ContainsKey(requireLocation))
+                    {
+                        ProcessFile(requireLocation, _availableFiles[requireLocation], result, 1);
+                    }
+
+                    if (_loadedModules.ContainsKey(requireLocation))
+                    {
+                        string subModuleName = _loadedModules[requireLocation];
+
+                        thisFile.AddLast("local " + subModuleName + " = _LOADED_zz_" + subModuleName + "_env;");
+                    }
+ 
                     continue;
                 }
                 else
@@ -63,6 +77,9 @@ namespace Lua2WowLua
 
                     fileModuleName = module.Groups["name"].Value;
 
+                    if (location != null)
+                        _loadedModules[location] = fileModuleName;
+
                     continue;
                 }
                 else
@@ -77,7 +94,7 @@ namespace Lua2WowLua
 
                 thisFile.AddLast(line);
             }
-
+            
             Action<string> appendContaingLine = delegate(string l)
             {
                 result.AppendLine(TabString.Repeat(depth - 1) + l);
@@ -121,9 +138,8 @@ namespace Lua2WowLua
 
                     appendContaingLine("    end;");
                     appendContaingLine("    setfenv(_LOADED_zz_" + fileModuleName + ", _LOADED_zz_" + fileModuleName + "_env);");
-                    appendContaingLine("    _LOADED_zz_include();");
+                    appendContaingLine("    _LOADED_zz_" + fileModuleName + "();");
                     appendContaingLine("end)();");
-                    appendContaingLine("local " + fileModuleName + " = _LOADED_zz_" + fileModuleName + "_env;");
                 }
             }
         }

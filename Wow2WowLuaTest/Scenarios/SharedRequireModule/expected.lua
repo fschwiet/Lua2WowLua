@@ -19,7 +19,6 @@ end)(getfenv());
     setfenv(_LOADED_zz_shared, _LOADED_zz_shared_env);
     _LOADED_zz_shared();
 end)();
-local shared = _LOADED_zz_shared_env;
 local _LOADED_zz_other_env = (function(e)
     local result = {};
     local key,value;
@@ -38,6 +37,7 @@ end)(getfenv());
     setfenv(_LOADED_zz_other, _LOADED_zz_other_env);
     _LOADED_zz_other();
 end)();
+local shared = _LOADED_zz_shared_env;
 local other = _LOADED_zz_other_env;
 shared.set(3);
 print("expecting 3, actual: " .. shared.get());
