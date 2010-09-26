@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Lua2WowLua
 {
@@ -13,9 +12,6 @@ namespace Lua2WowLua
             public string ModuleName;
             public IEnumerable<string> Requires;
         }
-
-        static Regex ModuleRegex = new Regex(@"^\s*module\s*\(\s*('|"")(?<name>\w+)('|"")\s*,\s*package\s*\.\s*seeall\s*\)\s*$");
-        static Regex UnrecognizedModuleRegex = new Regex(@"^\s*module\s*\(");
 
         public static Result FromStream(Stream input)
         {
@@ -30,7 +26,7 @@ namespace Lua2WowLua
                 {
                     lineIndex++;
 
-                    var match = ModuleRegex.Match(nextLine);
+                    var match = LuaRegex.SeeallModule.Match(nextLine);
 
                     if (match.Success)
                     {
@@ -39,7 +35,7 @@ namespace Lua2WowLua
                     }
                     else
                     {
-                        match = UnrecognizedModuleRegex.Match(nextLine);
+                        match = LuaRegex.UnhandledModule.Match(nextLine);
 
                         if (match.Success)
                             throw new InvalidDataException("Found unhandled module declaration on line " + lineIndex + ".");
