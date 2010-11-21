@@ -43,15 +43,3 @@ Affected parameters are:
 An exception occurred during the uninstallation of the Lua2WowLua.Snapin.SnapIn installer.
 System.ArgumentException: Cannot delete a subkey tree because the subkey does not exist.
 An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
-Installing assembly 'C:\src\Lua2WowLua\build\Lua2WowLua.dll'.
-Affected parameters are:
-   assemblypath = C:\src\Lua2WowLua\build\Lua2WowLua.dll
-   logtoconsole = 
-   logfile = C:\src\Lua2WowLua\build\Lua2WowLua.InstallLog
-   install = 
-Committing assembly 'C:\src\Lua2WowLua\build\Lua2WowLua.dll'.
-Affected parameters are:
-   assemblypath = C:\src\Lua2WowLua\build\Lua2WowLua.dll
-   logtoconsole = 
-   logfile = C:\src\Lua2WowLua\build\Lua2WowLua.InstallLog
-   install = 
