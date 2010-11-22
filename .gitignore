@@ -1,5 +1,6 @@
 bin/
 obj/
+build/
 _ReSharper.*
 *.ReSharper.user
 *.resharper.user
@@ -9,3 +10,4 @@ _ReSharper.*
 *.suo
 *.sln.cache
 InstallUtil.InstallLog
+

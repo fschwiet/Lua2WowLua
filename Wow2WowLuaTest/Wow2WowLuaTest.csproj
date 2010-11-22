@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScenarioTests.cs" />
+    <Compile Include="LegacyScenarioTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lua2WowLua\Lua2WowLua.csproj">
@@ -68,6 +68,12 @@
     <EmbeddedResource Include="Scenarios\SimpleRequire\expected.lua" />
     <EmbeddedResource Include="Scenarios\SimpleRequire\include.lua" />
     <EmbeddedResource Include="Scenarios\SimpleRequire\main.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scenarios.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

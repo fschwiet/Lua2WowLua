@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Wow2WowLuaTest
 {
     [TestFixture]
-    public class ScenarioTests
+    public class LegacyScenarioTests
     {
         Stream GetScenarioFile(string sharedrequiremoduleMainLua)
         {

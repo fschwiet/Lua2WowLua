@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\src\Lua2WowLua\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-11-21" time="14:08:19">
+<test-results name="C:\src\Lua2WowLua\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-11-21" time="23:22:37">
   <environment nunit-version="2.5.8.10295" clr-version="2.0.50727.4952" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\src\Lua2WowLua" machine-name="NZNZNZ6" user="user" user-domain="nznznz6" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Assembly" name="C:\src\Lua2WowLua\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" executed="True" result="Success" success="True" time="0.612" asserts="0">
+  <test-suite type="Assembly" name="C:\src\Lua2WowLua\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" executed="True" result="Success" success="True" time="0.526" asserts="0">
     <results>
-      <test-suite type="Namespace" name="Wow2WowLuaTest" executed="True" result="Success" success="True" time="0.583" asserts="0">
+      <test-suite type="Namespace" name="Wow2WowLuaTest" executed="True" result="Success" success="True" time="0.502" asserts="0">
         <results>
-          <test-suite type="TestFixture" name="ScenarioTests" executed="True" result="Success" success="True" time="0.579" asserts="0">
+          <test-suite type="TestFixture" name="LegacyScenarioTests" executed="True" result="Success" success="True" time="0.498" asserts="0">
             <results>
-              <test-case name="Wow2WowLuaTest.ScenarioTests.shared_require_module" executed="True" result="Success" success="True" time="0.545" asserts="5" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests.simple_require" executed="True" result="Success" success="True" time="0.001" asserts="4" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests.simple_require_module" executed="True" result="Success" success="True" time="0.002" asserts="4" />
+              <test-case name="Wow2WowLuaTest.LegacyScenarioTests.shared_require_module" executed="True" result="Success" success="True" time="0.466" asserts="5" />
+              <test-case name="Wow2WowLuaTest.LegacyScenarioTests.simple_require" executed="True" result="Success" success="True" time="0.002" asserts="4" />
+              <test-case name="Wow2WowLuaTest.LegacyScenarioTests.simple_require_module" executed="True" result="Success" success="True" time="0.003" asserts="4" />
             </results>
           </test-suite>
         </results>
