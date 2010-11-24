@@ -6,8 +6,8 @@ namespace Lua2WowLua
     {
         static string FileReference = @"\s*('|"")(?<name>[\w\\/]+)(\.lua)?('|"")\s*";
         public static Regex SeeallModule = new Regex(@"^\s*module\s*\(" + FileReference + @",\s*package\s*\.\s*seeall\s*\)\s*(;?\s*)*$");
-        public static Regex UnhandledModule = new Regex(@"^\s*module\s*\(");
-        public static Regex Require = new Regex(@"^\s*require\s*\(" + FileReference + @"\)\s*(;?\s*)*$");
-        public static Regex UnhandledRequire = new Regex(@"^\s*require\s*\(");
+        public static Regex UnhandledModule = new Regex(@"^\s*module\s*");
+        public static Regex Require = new Regex(@"^\s*require\s*\(?" + FileReference + @"\)?\s*(;?\s*)*$");
+        public static Regex UnhandledRequire = new Regex(@"^\s*require\s*");
     }
 }

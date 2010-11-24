@@ -32,7 +32,6 @@ namespace Wow2WowLuaTest
 
                         var results = sut.Process(test.MainSource);
 
-                        Console.WriteLine(results);
                         results.Should().Equal(expectedSource);
                 });
             }
