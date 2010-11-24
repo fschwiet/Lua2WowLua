@@ -19,6 +19,14 @@ namespace Lua2WowLua
             _fileFinder = fileFinder;
         }
 
+        public string Process(string filepath)
+        {
+            using (var file = File.OpenRead(filepath))
+            {
+                return Process(file);
+            }
+        }
+
         public string Process(Stream file)
         {
             StringBuilder result = new StringBuilder();
@@ -46,7 +54,10 @@ namespace Lua2WowLua
 
                     if (!_loadedModules.ContainsKey(requireLocation))
                     {
-                        ProcessFile(requireLocation, _fileFinder.Get(requireLocation), result, 1);
+                        using (Stream requireStream = _fileFinder.Get(requireLocation))
+                        {
+                            ProcessFile(requireLocation, requireStream, result, 1);
+                        }
                     }
 
                     if (_loadedModules.ContainsKey(requireLocation))

@@ -1,7 +1,14 @@
 
 task default -depends tests
 
-task build {
+task MakeScenarioZip {
+    if (test-path .\Wow2WowLuaTest\Scenarios.zip) {
+        gi .\Wow2WowLuaTest\Scenarios.zip | rm
+    }
+    gi .\Wow2WowLuaTest\Scenarios | % { CreateClientTestsZipResource $_.fullname }
+}
+
+task build -depends MakeScenarioZip {
 	exec { & $msbuild Lua2WowLua.sln }
 
 	if (test-path .\build\) {
@@ -12,16 +19,9 @@ task build {
 	cp .\Lua2WowLua\bin\debug\* .\build\
 }
 
-task MakeScenarioZip {
-    if (test-path .\Wow2WowLuaTest\Scenarios.zip) {
-        gi .\Wow2WowLuaTest\Scenarios.zip | rm
-    }
-    gi .\Wow2WowLuaTest\Scenarios | % { CreateClientTestsZipResource $_.fullname }
-}
-
 task tests -depends build {
 
-	exec { nunit-console .\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll }
+	exec { & .\packages\NUnit.2.5.7.10213\tools\nunit-console .\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll }
 
 }
 
@@ -37,5 +37,5 @@ function CreateClientTestsZipResource($source) {
     if (test-path $target) {
         rm $target
     }
-    .\lib\7-Zip\7za.exe a $target ($source + "\")  
+    .\lib\7-Zip\7za.exe a $target ($source + "\*")  
 }

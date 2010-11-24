@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileCollection.cs" />
+    <Compile Include="FileFinder.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="IFileFinder.cs" />
     <Compile Include="LuaRegex.cs" />
