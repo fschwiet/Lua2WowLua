@@ -28,7 +28,7 @@ namespace Wow2WowLuaTest
                 it("integration test: " + test.MainSource, delegate
                 {
                     if (File.Exists(test.SourceProduced))
-                        File.Delete(test.SourceProduced);
+                        throw new Exception("Result has already been written to per-test directory");
 
                     string expectedOutput = File.ReadAllText(test.ExpectedOutput);
 
@@ -90,6 +90,8 @@ namespace Wow2WowLuaTest
             psi.WorkingDirectory = new FileInfo(filepath).Directory.FullName;
             psi.UseShellExecute = false;
             psi.RedirectStandardOutput = true;
+            psi.RedirectStandardError = true;
+
             psi.CreateNoWindow = true;
 
             using (var luaProcess = Process.Start(psi))
@@ -98,7 +100,13 @@ namespace Wow2WowLuaTest
 
                 luaProcess.WaitForExit();
 
-                return luaProcess.StandardOutput.ReadToEnd();
+                var result = luaProcess.StandardOutput.ReadToEnd();
+
+                var errorText = luaProcess.StandardError.ReadToEnd();
+
+                errorText.Should().Equal("");
+
+                return result;
             }
         }
     }

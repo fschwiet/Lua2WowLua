@@ -68,18 +68,14 @@
     <None Include="Scenarios\can_require_Shared_module\main.lua" />
     <None Include="Scenarios\can_require_Shared_module\other.lua" />
     <None Include="Scenarios\can_require_Shared_module\shared.lua" />
-    <None Include="Scenarios\can_require_without_lua_file_extension\include.lua" />
-    <None Include="Scenarios\can_require_without_lua_file_extension\main.lua" />
-    <None Include="Scenarios\can_require_without_parenthesis\main.lua" />
-    <None Include="Scenarios\can_require_without_parenthesis\subpath\include.lua" />
-    <None Include="Scenarios\can_require_with_lua_file_extension\include.lua" />
-    <None Include="Scenarios\can_require_with_lua_file_extension\main.lua" />
     <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\recordA.lua" />
     <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\main.lua" />
     <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\recordC.lua" />
     <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\recordB.lua" />
-    <None Include="Scenarios\can_require_with_nested_file\main.lua" />
-    <None Include="Scenarios\can_require_with_nested_file\subpath\include.lua" />
+    <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\main.lua" />
+    <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\printA.lua" />
+    <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\subpath\printB.lua" />
+    <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\printC.lua" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -92,10 +88,7 @@
   <ItemGroup>
     <Content Include="Scenarios\can_require_a_module\expected.txt" />
     <Content Include="Scenarios\can_require_Shared_module\expected.txt" />
-    <Content Include="Scenarios\can_require_without_lua_file_extension\expected.txt" />
-    <Content Include="Scenarios\can_require_without_parenthesis\expected.txt" />
-    <Content Include="Scenarios\can_require_with_lua_file_extension\expected.txt" />
-    <Content Include="Scenarios\can_require_with_nested_file\expected.txt" />
+    <Content Include="Scenarios\require_parameter_is_robustly_accepted\expected.txt" />
     <Content Include="Scenarios\require_doesnt_reorder_code\expected.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
