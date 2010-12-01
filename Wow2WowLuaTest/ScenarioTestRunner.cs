@@ -11,13 +11,14 @@ using Should.Fluent;
 
 namespace Wow2WowLuaTest
 {
-    public class ScenarioTests : NJasmineFixture 
+    public class ScenarioTestRunner : NJasmineFixture 
     {
         public class ScenarioTest
         {
             public string SourcePath;
             public string MainSource;
-            public string ExpectedSource;
+            public string ExpectedOutput;
+            public string SourceProduced;
         }
 
         public override void Tests()
@@ -26,13 +27,20 @@ namespace Wow2WowLuaTest
             {
                 it("integration test: " + test.MainSource, delegate
                 {
-                        string expectedSource = File.ReadAllText(test.ExpectedSource);
+                    if (File.Exists(test.SourceProduced))
+                        File.Delete(test.SourceProduced);
 
-                        Generator sut = new Generator(new FileFinder(test.SourcePath));
+                    string expectedOutput = File.ReadAllText(test.ExpectedOutput);
 
-                        var results = sut.Process(test.MainSource);
+                    Generator sut = new Generator(new FileFinder(test.SourcePath));
 
-                        results.Should().Equal(expectedSource);
+                    var resultSource = sut.Process(test.MainSource);
+
+                    File.WriteAllText(test.SourceProduced, resultSource, Encoding.ASCII);
+
+                    string actualOutput = RunLuaFile(test.SourceProduced);
+
+                    actualOutput.Should().Equal(expectedOutput);
                 });
             }
 
@@ -41,7 +49,7 @@ namespace Wow2WowLuaTest
                 foreach(var test in GetScenarioTests())
                 {
                     File.Exists(test.MainSource).Should().Be.True();
-                    File.Exists(test.ExpectedSource).Should().Be.True();
+                    File.Exists(test.ExpectedOutput).Should().Be.True();
                 }
             });
 
@@ -59,7 +67,8 @@ namespace Wow2WowLuaTest
             {
                 SourcePath = scenario,
                 MainSource = Path.Combine(scenario, "main.lua"),
-                ExpectedSource = Path.Combine(scenario, "expected.lua")
+                ExpectedOutput = Path.Combine(scenario, "expected.txt"),
+                SourceProduced = Path.Combine(scenario, "result.tmp.lua")
             });
         }
 
@@ -72,6 +81,25 @@ namespace Wow2WowLuaTest
         string ExtractZip()
         {
             return ZipFixtureLoader.UnzipBinDeployedToTempDirectory("Scenarios.zip", "Wow2WowLuaTest.tests");
+        }
+
+        string RunLuaFile(string filepath)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo("lua", filepath);
+
+            psi.WorkingDirectory = new FileInfo(filepath).Directory.FullName;
+            psi.UseShellExecute = false;
+            psi.RedirectStandardOutput = true;
+            psi.CreateNoWindow = true;
+
+            using (var luaProcess = Process.Start(psi))
+            {
+                luaProcess.StandardOutput.Peek();
+
+                luaProcess.WaitForExit();
+
+                return luaProcess.StandardOutput.ReadToEnd();
+            }
         }
     }
 }

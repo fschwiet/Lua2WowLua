@@ -5,6 +5,22 @@ task MakeScenarioZip {
     if (test-path .\Wow2WowLuaTest\Scenarios.zip) {
         gi .\Wow2WowLuaTest\Scenarios.zip | rm
     }
+
+    push-location
+
+    gci .\Wow2WowLuaTest\Scenarios * | ? { $_.PSIsContainer } | % {
+
+        cd $_.fullname
+
+        $mainSource = (join-path $_.fullname "main.lua")
+        $expectedOutput = (join-path $_.fullname "expected.txt")
+
+        "visiting: " + $mainSource;
+        exec { & "lua" "main.lua" | set-content $expectedOutput -encoding UTF8 }
+    }
+
+    pop-location
+
     gi .\Wow2WowLuaTest\Scenarios | % { CreateClientTestsZipResource $_.fullname }
 }
 

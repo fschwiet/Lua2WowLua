@@ -1,22 +1,119 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" total="8" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-11-23" time="19:34:19">
+<test-results name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" total="9" errors="5" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-12-01" time="14:04:54">
   <environment nunit-version="2.5.7.10213" clr-version="2.0.50727.4952" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\src\Lua2WowLua" machine-name="NZNZNZ6" user="user" user-domain="nznznz6" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Assembly" name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" executed="True" result="Success" success="True" time="4.434" asserts="0">
+  <test-suite type="Assembly" name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" executed="True" result="Failure" success="False" time="5.528" asserts="0">
     <results>
-      <test-suite type="Namespace" name="Wow2WowLuaTest" executed="True" result="Success" success="True" time="4.120" asserts="0">
+      <test-suite type="Namespace" name="Wow2WowLuaTest" executed="True" result="Failure" success="False" time="5.507" asserts="0">
         <results>
-          <test-suite type="TestSuite" name="ScenarioTests" executed="True" result="Success" success="True" time="4.116" asserts="0">
+          <test-suite type="TestSuite" name="ScenarioTestRunner" executed="True" result="Failure" success="False" time="5.499" asserts="0">
             <results>
-              <test-case name="Wow2WowLuaTest.ScenarioTests integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_without_lua_file_extension\main.lua" executed="True" result="Success" success="True" time="1.110" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_without_parenthesis\main.lua" executed="True" result="Success" success="True" time="0.416" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_with_lua_file_extension\main.lua" executed="True" result="Success" success="True" time="0.375" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_with_nested_file\main.lua" executed="True" result="Success" success="True" time="0.344" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\SharedRequireModule\main.lua" executed="True" result="Success" success="True" time="0.311" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\SimpleRequireModule\main.lua" executed="True" result="Success" success="True" time="0.277" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests each scenario has the expected files" executed="True" result="Success" success="True" time="0.635" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTests can load the scenarios" executed="True" result="Success" success="True" time="0.614" asserts="0" />
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_a_module\main.lua" executed="True" result="Success" success="True" time="1.518" asserts="0" />
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_Shared_module\main.lua" executed="True" result="Success" success="True" time="0.293" asserts="0" />
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_without_lua_file_extension\main.lua" executed="True" result="Success" success="True" time="0.479" asserts="0" />
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_without_parenthesis\main.lua" executed="True" result="Error" success="False" time="0.409" asserts="0">
+                <failure>
+                  <message><![CDATA[System.IO.FileNotFoundException : Could not find file 'C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_without_parenthesis\expected.txt'.]]></message>
+                  <stack-trace><![CDATA[at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath)
+at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize)
+at System.IO.StreamReader..ctor(String path, Encoding encoding)
+at System.IO.File.InternalReadAllText(String path, Encoding encoding)
+at Wow2WowLuaTest.ScenarioTestRunner.<>c__DisplayClass4.<Tests>b__0() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 33
+at NJasmine.Core.NJasmineTestMethod.visitIt(String description, Action action, TestPosition position) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 91
+at NJasmine.Core.FixtureVisitor.VisitorPositionAdapter.visitIt(String description, Action action) in c:\src\NJasmine\NJasmine\Core\FixtureVisitor\VisitorPositionAdapter.cs:line 51
+at NJasmine.NJasmineFixture.it(String description, Action action) in c:\src\NJasmine\NJasmine\NJasmineFixture.cs:line 56
+at Wow2WowLuaTest.ScenarioTestRunner.Tests() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 28
+at NJasmine.Core.NJasmineTestMethod.Run() in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 43
+at NJasmine.Core.NJasmineTestMethod.RunTestMethod(TestResult testResult) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 28
+at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_with_lua_file_extension\main.lua" executed="True" result="Error" success="False" time="0.282" asserts="0">
+                <failure>
+                  <message><![CDATA[System.IO.FileNotFoundException : Could not find file 'C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_with_lua_file_extension\expected.txt'.]]></message>
+                  <stack-trace><![CDATA[at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath)
+at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize)
+at System.IO.StreamReader..ctor(String path, Encoding encoding)
+at System.IO.File.InternalReadAllText(String path, Encoding encoding)
+at Wow2WowLuaTest.ScenarioTestRunner.<>c__DisplayClass4.<Tests>b__0() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 33
+at NJasmine.Core.NJasmineTestMethod.visitIt(String description, Action action, TestPosition position) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 91
+at NJasmine.Core.FixtureVisitor.VisitorPositionAdapter.visitIt(String description, Action action) in c:\src\NJasmine\NJasmine\Core\FixtureVisitor\VisitorPositionAdapter.cs:line 51
+at NJasmine.NJasmineFixture.it(String description, Action action) in c:\src\NJasmine\NJasmine\NJasmineFixture.cs:line 56
+at Wow2WowLuaTest.ScenarioTestRunner.Tests() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 28
+at NJasmine.Core.NJasmineTestMethod.Run() in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 43
+at NJasmine.Core.NJasmineTestMethod.RunTestMethod(TestResult testResult) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 28
+at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_with_nested_file\main.lua" executed="True" result="Error" success="False" time="0.350" asserts="0">
+                <failure>
+                  <message><![CDATA[System.IO.FileNotFoundException : Could not find file 'C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_with_nested_file\expected.txt'.]]></message>
+                  <stack-trace><![CDATA[at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath)
+at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize)
+at System.IO.StreamReader..ctor(String path, Encoding encoding)
+at System.IO.File.InternalReadAllText(String path, Encoding encoding)
+at Wow2WowLuaTest.ScenarioTestRunner.<>c__DisplayClass4.<Tests>b__0() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 33
+at NJasmine.Core.NJasmineTestMethod.visitIt(String description, Action action, TestPosition position) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 91
+at NJasmine.Core.FixtureVisitor.VisitorPositionAdapter.visitIt(String description, Action action) in c:\src\NJasmine\NJasmine\Core\FixtureVisitor\VisitorPositionAdapter.cs:line 51
+at NJasmine.NJasmineFixture.it(String description, Action action) in c:\src\NJasmine\NJasmine\NJasmineFixture.cs:line 56
+at Wow2WowLuaTest.ScenarioTestRunner.Tests() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 28
+at NJasmine.Core.NJasmineTestMethod.Run() in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 43
+at NJasmine.Core.NJasmineTestMethod.RunTestMethod(TestResult testResult) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 28
+at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\require_doesnt_reorder_code\main.lua" executed="True" result="Error" success="False" time="0.484" asserts="0">
+                <failure>
+                  <message><![CDATA[Should.Core.Exceptions.EqualException : Assert.Equal() Failure
+Position: First difference is at position 0
+Expected: 1
+          A
+          2
+          B
+          3
+          C
+          4
+          
+Actual:   ]]></message>
+                  <stack-trace><![CDATA[at Wow2WowLuaTest.ScenarioTestRunner.<>c__DisplayClass4.<Tests>b__0() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 43
+at NJasmine.Core.NJasmineTestMethod.visitIt(String description, Action action, TestPosition position) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 91
+at NJasmine.Core.FixtureVisitor.VisitorPositionAdapter.visitIt(String description, Action action) in c:\src\NJasmine\NJasmine\Core\FixtureVisitor\VisitorPositionAdapter.cs:line 51
+at NJasmine.NJasmineFixture.it(String description, Action action) in c:\src\NJasmine\NJasmine\NJasmineFixture.cs:line 56
+at Wow2WowLuaTest.ScenarioTestRunner.Tests() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 28
+at NJasmine.Core.NJasmineTestMethod.Run() in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 43
+at NJasmine.Core.NJasmineTestMethod.RunTestMethod(TestResult testResult) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 28
+at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner each scenario has the expected files" executed="True" result="Error" success="False" time="0.914" asserts="0">
+                <failure>
+                  <message><![CDATA[Should.Core.Exceptions.TrueException : Assert.True() Failure]]></message>
+                  <stack-trace><![CDATA[at Wow2WowLuaTest.ScenarioTestRunner.<Tests>b__1() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 52
+at NJasmine.Core.NJasmineTestMethod.visitIt(String description, Action action, TestPosition position) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 91
+at NJasmine.Core.FixtureVisitor.VisitorPositionAdapter.visitIt(String description, Action action) in c:\src\NJasmine\NJasmine\Core\FixtureVisitor\VisitorPositionAdapter.cs:line 51
+at NJasmine.NJasmineFixture.it(String description, Action action) in c:\src\NJasmine\NJasmine\NJasmineFixture.cs:line 56
+at Wow2WowLuaTest.ScenarioTestRunner.Tests() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 47
+at NJasmine.Core.NJasmineTestMethod.Run() in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 43
+at NJasmine.Core.NJasmineTestMethod.RunTestMethod(TestResult testResult) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 28
+at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner can load the scenarios" executed="True" result="Success" success="True" time="0.675" asserts="0" />
             </results>
           </test-suite>
         </results>
