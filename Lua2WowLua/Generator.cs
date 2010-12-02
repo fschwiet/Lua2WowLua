@@ -11,6 +11,7 @@ namespace Lua2WowLua
     {
         readonly IFileFinder _fileFinder;
         const string TabString = "    ";
+        public static int _anonymousObjectIndex = 0;
 
         Dictionary<string, string> _loadedModules = new Dictionary<string, string>();
 
@@ -36,7 +37,7 @@ namespace Lua2WowLua
             return result.ToString();
         }
 
-        void ProcessFile(string location, Stream file, StringBuilder result, int depth)
+        string ProcessFile(string location, Stream file, StringBuilder result, int depth)
         {
             string line;
             var reader = new StreamReader(file);
@@ -52,17 +53,9 @@ namespace Lua2WowLua
                 {
                     var requireLocation = require.Groups["name"].Value;
 
-                    if (!_loadedModules.ContainsKey(requireLocation))
+                    using (Stream requireStream = _fileFinder.Get(requireLocation))
                     {
-                        using (Stream requireStream = _fileFinder.Get(requireLocation))
-                        {
-                            ProcessFile(requireLocation, requireStream, result, 1);
-                        }
-                    }
-
-                    if (_loadedModules.ContainsKey(requireLocation))
-                    {
-                        string subModuleName = _loadedModules[requireLocation];
+                        string subModuleName = ProcessFile(requireLocation, requireStream, result, 1);
 
                         thisFile.AddLast("_LOADER_zz_" + subModuleName + "();");
                         thisFile.AddLast("local " + subModuleName + " = _LOADED_zz_" + subModuleName + "_env;");
@@ -112,6 +105,8 @@ namespace Lua2WowLua
                 result.AppendLine(TabString.Repeat(depth - 1) + l);
             };
 
+            fileModuleName = fileModuleName ?? ("anonymousModule" + ++_anonymousObjectIndex);
+
             var envVariable = "_LOADED_zz_" + fileModuleName + "_env";
             var loader = "_LOADER_zz_" + fileModuleName;
 
@@ -152,6 +147,8 @@ namespace Lua2WowLua
                     appendContaingLine("setfenv(" + loader + ", " + envVariable + ")");
                 }
             }
+
+            return fileModuleName;
         }
     }
 }
