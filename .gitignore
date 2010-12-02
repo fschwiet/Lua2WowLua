@@ -1,6 +1,8 @@
 bin/
 obj/
 build/
+Wow2WowLuaTest/Scenarios.zip
+TestResult.xml
 _ReSharper.*
 *.ReSharper.user
 *.resharper.user
