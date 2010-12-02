@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Lua2WowLua.Tokens;
 
 namespace Lua2WowLua
 {
@@ -44,74 +45,67 @@ namespace Lua2WowLua
             result.AppendLine(EnvTable + " = {}");
             result.AppendLine(LoaderTable + " = {}");
 
-            ProcessFile(null, file, result, false);
+            ProcessFile(null, LoadStream(file), result, false);
 
             return result.ToString();
         }
 
-        string ProcessFile(string location, Stream file, StringBuilder result, bool isEmbedded)
+        string ProcessFile(string location, IEnumerable<string> file, StringBuilder result, bool isEmbedded)
         {
-            string line;
-            var reader = new StreamReader(file);
+            var tokens = Tokenizer.Tokenize(file);
+
             string fileModuleName = null;
 
             LinkedList<string> thisFile = new LinkedList<string>();
 
-            while((line = reader.ReadLine()) != null)
+            foreach(var token in tokens)
             {
-                Match require = LuaRegex.Require.Match(line);
-
-                if (require.Success)
+                if (token is RequireToken)
                 {
-                    var requireLocation = require.Groups["name"].Value;
+                    string requireValue = (token as RequireToken).Value;
+                    IEnumerable<string> requiredFile = null;
 
-                    using (Stream requireStream = _fileFinder.Get(requireLocation))
+                    using (Stream requireStream = _fileFinder.Get(requireValue))
                     {
-                        string subModuleName = ProcessFile(requireLocation, requireStream, result, true);
-
-                        thisFile.AddLast(Lookup(LoaderTable, subModuleName) + "();");
-
-                        if (!subModuleName.StartsWith(AnonymousModulePrefix))
-                            thisFile.AddLast("local " + subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
+                        requiredFile = LoadStream(requireStream);
                     }
- 
-                    continue;
+
+                    string subModuleName = ProcessFile(requireValue, requiredFile, result, true);
+
+                    thisFile.AddLast(Lookup(LoaderTable, subModuleName) + "();");
+
+                    if (!subModuleName.StartsWith(AnonymousModulePrefix))
+                        thisFile.AddLast("local " + subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
+
                 }
-                else
+                else if (token is UnhandledRequireToken)
                 {
-                    var fail = LuaRegex.UnhandledRequire.Match(line);
-
-                    if (fail.Success)
-                    {
-                        throw new NotSupportedException("A require expression was detected that is likely not yet supported propery.  The expression was: " + line);
-                    }
+                    OnFileError(file, token,
+                                "A require expression was detected that is likely not yet supported propery.");
                 }
-
-                Match module = LuaRegex.SeeallModule.Match(line);
-
-                if (module.Success)
+                else if (token is SeeallModuleToken)
                 {
                     if (fileModuleName != null)
-                        throw new NotSupportedException("A second module expression was found in the same file.  The second expression was: " + line);
+                        OnFileError(file, token, "A second module expression was found in the same file.");
 
-                    fileModuleName = module.Groups["name"].Value;
+                    fileModuleName = (token as SeeallModuleToken).Value;
 
                     if (location != null)
                         _loadedModules[location] = fileModuleName;
-
-                    continue;
+                }
+                else if (token is UnhandledModuleToken)
+                {
+                    OnFileError(file, token,
+                                "A module expression was detected that is likely not yet supported propery.");
+                }
+                else if (token is OtherToken)
+                {
+                    thisFile.AddLast((token as OtherToken).Value);
                 }
                 else
                 {
-                    var fail = LuaRegex.UnhandledModule.Match(line);
-
-                    if (fail.Success)
-                    {
-                        throw new NotSupportedException("A module expression was detected that is likely not yet supported propery.  The expression was: " + line);
-                    }
+                    OnFileError(file, token, "Unrecognized token.");
                 }
-
-                thisFile.AddLast(line);
             }
             
             fileModuleName = fileModuleName ?? (AnonymousModulePrefix + ++_anonymousObjectIndex);
@@ -141,6 +135,38 @@ namespace Lua2WowLua
             }
 
             return fileModuleName;
+        }
+
+        void OnFileError(IEnumerable<string> file, IToken token, string description)
+        {
+            var line = file.Skip(token.LineNumber - 1).Take(1);
+
+            if (line.Any())
+            {
+                throw new Exception(String.Format("{0}, line: {1}, expression: {2}",
+                                                  description,
+                                                  token.LineNumber,
+                                                  line.Single()));
+            }
+
+            throw new Exception(String.Format("{0}, line (not found): {1}", description, token.LineNumber));
+        }
+
+        public static IEnumerable<string> LoadStream(Stream stream)
+        {
+            List<string> result = new List<string>();
+
+            using (var fileReader = new StreamReader(stream))
+            {
+                string line = null;
+
+                while ((line = fileReader.ReadLine()) != null)
+                {
+                    result.Add(line);
+                }
+            }
+
+            return result;
         }
     }
 }

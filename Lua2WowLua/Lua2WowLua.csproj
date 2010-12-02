@@ -55,6 +55,19 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="Tokens\IToken.cs" />
+    <Compile Include="Tokens\ITokenLoader.cs" />
+    <Compile Include="Tokens\RequireToken.cs" />
+    <Compile Include="Tokens\RequireTokenLoader.cs" />
+    <Compile Include="Tokens\SeeallModuleToken.cs" />
+    <Compile Include="Tokens\SeeallModuleTokenLoader.cs" />
+    <Compile Include="Tokens\Tokenizer.cs" />
+    <Compile Include="Tokens\UnhandledModuleToken.cs" />
+    <Compile Include="Tokens\UnhandledModuleTokenLoader.cs" />
+    <Compile Include="Tokens\UnhandledRequireToken.cs" />
+    <Compile Include="Tokens\UnhandledRequireTokenLoader.cs" />
+    <Compile Include="Tokens\OtherToken.cs" />
+    <Compile Include="Tokens\OtherTokenLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
