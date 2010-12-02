@@ -68,10 +68,10 @@
     <None Include="Scenarios\can_require_Shared_module\main.lua" />
     <None Include="Scenarios\can_require_Shared_module\other.lua" />
     <None Include="Scenarios\can_require_Shared_module\shared.lua" />
-    <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\recordA.lua" />
+    <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\printA.lua" />
     <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\main.lua" />
-    <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\recordC.lua" />
-    <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\recordB.lua" />
+    <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\printC.lua" />
+    <EmbeddedResource Include="Scenarios\require_doesnt_reorder_code\printB.lua" />
     <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\main.lua" />
     <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\printA.lua" />
     <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\subpath\printB.lua" />

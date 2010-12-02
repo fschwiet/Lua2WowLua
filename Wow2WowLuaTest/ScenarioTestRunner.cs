@@ -104,7 +104,17 @@ namespace Wow2WowLuaTest
 
                 var errorText = luaProcess.StandardError.ReadToEnd();
 
-                errorText.Should().Equal("");
+                try
+                {
+                    errorText.Should().Equal("");
+                }
+                catch
+                {
+                    Console.WriteLine("Error reported running script with contents:");
+                    Console.WriteLine(File.ReadAllText(filepath));
+                    throw;
+                }
+
 
                 return result;
             }

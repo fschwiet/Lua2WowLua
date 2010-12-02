@@ -1,22 +1,13 @@
-local results = {};
-function Record(value)
-    table.insert(results, value);
-end
+print(1);
 
-Record(1);
+require('printA')
 
-require('recordA')
+print(2);
 
-Record(2);
+require('printB')
 
-require('recordB')
+print(3);
 
-Record(3);
+require('printC')
 
-require('recordC')
-
-Record(4);
-
-for index, value in ipairs(results) do
-    print(value);
-end
+print(4);

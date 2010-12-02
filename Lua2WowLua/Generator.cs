@@ -64,6 +64,7 @@ namespace Lua2WowLua
                     {
                         string subModuleName = _loadedModules[requireLocation];
 
+                        thisFile.AddLast("_LOADER_zz_" + subModuleName + "(getfenv());");
                         thisFile.AddLast("local " + subModuleName + " = _LOADED_zz_" + subModuleName + "_env;");
                     }
  
@@ -111,6 +112,9 @@ namespace Lua2WowLua
                 result.AppendLine(TabString.Repeat(depth - 1) + l);
             };
 
+            var envVariable = "_LOADED_zz_" + fileModuleName + "_env";
+            var loader = "_LOADER_zz_" + fileModuleName;
+
             if (depth > 0)
             {
                 if (fileModuleName == null)
@@ -119,16 +123,14 @@ namespace Lua2WowLua
                 }
                 else
                 {
-                    appendContaingLine("local _LOADED_zz_" + fileModuleName + "_env = (function(e)");
-                    appendContaingLine("    local result = {};");
+                    appendContaingLine("local " + envVariable + " = nil;");
+                    appendContaingLine("local " + loader + " = function(env)");
                     appendContaingLine("    local key,value;");
-                    appendContaingLine("    for key,value in pairs(e) do");
-                    appendContaingLine("        result[key] = value;");
+                    appendContaingLine("    for key,value in pairs(env) do");
+                    appendContaingLine("        " + envVariable + "[key] = value;");
                     appendContaingLine("    end");
-                    appendContaingLine("    return result;");
-                    appendContaingLine("end)(getfenv());");
-                    appendContaingLine("(function()");
-                    appendContaingLine("    local _LOADED_zz_" + fileModuleName + " = function()");
+                    appendContaingLine("    " + loader + " = function() end;");
+
 
                     depth++;
                 }
@@ -147,10 +149,10 @@ namespace Lua2WowLua
                 {
                     depth--;
 
-                    appendContaingLine("    end;");
-                    appendContaingLine("    setfenv(_LOADED_zz_" + fileModuleName + ", _LOADED_zz_" + fileModuleName + "_env);");
-                    appendContaingLine("    _LOADED_zz_" + fileModuleName + "();");
-                    appendContaingLine("end)();");
+                    appendContaingLine("end;");
+                    appendContaingLine(envVariable + " = getfenv(" + loader  + ");");
+
+                    //appendContaingLine(loader + "(getfenv());");
                 }
             }
         }
