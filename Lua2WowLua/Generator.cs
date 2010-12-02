@@ -12,6 +12,15 @@ namespace Lua2WowLua
         readonly IFileFinder _fileFinder;
         const string TabString = "    ";
         public static int _anonymousObjectIndex = 0;
+        static readonly string EnvTable = "_ZZZ_env";
+        static readonly string LoaderTable = "_ZZZ_loader";
+        static readonly string AnonymousModulePrefix = "_zzz_module";
+
+        static string Lookup(string tableName, string valueName)
+        {
+            return tableName + "[\"" + valueName + "\"]";
+        }
+
 
         Dictionary<string, string> _loadedModules = new Dictionary<string, string>();
 
@@ -31,6 +40,9 @@ namespace Lua2WowLua
         public string Process(Stream file)
         {
             StringBuilder result = new StringBuilder();
+
+            result.AppendLine(EnvTable + " = {}");
+            result.AppendLine(LoaderTable + " = {}");
 
             ProcessFile(null, file, result, 0);
 
@@ -57,8 +69,10 @@ namespace Lua2WowLua
                     {
                         string subModuleName = ProcessFile(requireLocation, requireStream, result, 1);
 
-                        thisFile.AddLast("_LOADER_zz_" + subModuleName + "();");
-                        thisFile.AddLast("local " + subModuleName + " = _LOADED_zz_" + subModuleName + "_env;");
+                        thisFile.AddLast(Lookup(LoaderTable, subModuleName) + "();");
+
+                        if (!subModuleName.StartsWith(AnonymousModulePrefix))
+                            thisFile.AddLast("local " + subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
                     }
  
                     continue;
@@ -105,29 +119,21 @@ namespace Lua2WowLua
                 result.AppendLine(TabString.Repeat(depth - 1) + l);
             };
 
-            fileModuleName = fileModuleName ?? ("anonymousModule" + ++_anonymousObjectIndex);
-
-            var envVariable = "_LOADED_zz_" + fileModuleName + "_env";
-            var loader = "_LOADER_zz_" + fileModuleName;
+            fileModuleName = fileModuleName ?? (AnonymousModulePrefix + ++_anonymousObjectIndex);
 
             if (depth > 0)
             {
-                if (fileModuleName == null)
+                if (!fileModuleName.StartsWith(AnonymousModulePrefix))
                 {
-                    appendContaingLine("(function()");
-                }
-                else
-                {
-                    appendContaingLine("local " + envVariable + " = {};");
+                    appendContaingLine(Lookup(EnvTable, fileModuleName) + " = {};");
                     appendContaingLine("for key,value in pairs(getfenv()) do");
-                    appendContaingLine("    " + envVariable + "[key] = value;");
+                    appendContaingLine("    " + Lookup(EnvTable, fileModuleName) + "[key] = value;");
                     appendContaingLine("end");
-                    appendContaingLine("local " + loader + " = function()");
-                    appendContaingLine("    " + loader + " = function() end;");
-
-
-                    depth++;
                 }
+                appendContaingLine(Lookup(LoaderTable, fileModuleName) + " = function()");
+                appendContaingLine("    " + Lookup(LoaderTable, fileModuleName) + " = function() end;");
+
+                depth++;
             }
 
             foreach (string lineToCopy in thisFile)
@@ -135,17 +141,12 @@ namespace Lua2WowLua
             
             if (depth > 0)
             {
-                if (fileModuleName == null)
-                {
-                    appendContaingLine("end)();");
-                }
-                else
-                {
-                    depth--;
+                depth--;
 
-                    appendContaingLine("end;");
-                    appendContaingLine("setfenv(" + loader + ", " + envVariable + ")");
-                }
+                appendContaingLine("end;");
+
+                if (!fileModuleName.StartsWith(AnonymousModulePrefix))
+                    appendContaingLine("setfenv(" + Lookup(LoaderTable, fileModuleName) + ", " + Lookup(EnvTable, fileModuleName) + ")");
             }
 
             return fileModuleName;
