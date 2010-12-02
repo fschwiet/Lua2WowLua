@@ -44,12 +44,12 @@ namespace Lua2WowLua
             result.AppendLine(EnvTable + " = {}");
             result.AppendLine(LoaderTable + " = {}");
 
-            ProcessFile(null, file, result, 0);
+            ProcessFile(null, file, result, false);
 
             return result.ToString();
         }
 
-        string ProcessFile(string location, Stream file, StringBuilder result, int depth)
+        string ProcessFile(string location, Stream file, StringBuilder result, bool isEmbedded)
         {
             string line;
             var reader = new StreamReader(file);
@@ -67,7 +67,7 @@ namespace Lua2WowLua
 
                     using (Stream requireStream = _fileFinder.Get(requireLocation))
                     {
-                        string subModuleName = ProcessFile(requireLocation, requireStream, result, 1);
+                        string subModuleName = ProcessFile(requireLocation, requireStream, result, true);
 
                         thisFile.AddLast(Lookup(LoaderTable, subModuleName) + "();");
 
@@ -114,39 +114,30 @@ namespace Lua2WowLua
                 thisFile.AddLast(line);
             }
             
-            Action<string> appendContaingLine = delegate(string l)
-            {
-                result.AppendLine(TabString.Repeat(depth - 1) + l);
-            };
-
             fileModuleName = fileModuleName ?? (AnonymousModulePrefix + ++_anonymousObjectIndex);
 
-            if (depth > 0)
+            if (isEmbedded)
             {
                 if (!fileModuleName.StartsWith(AnonymousModulePrefix))
                 {
-                    appendContaingLine(Lookup(EnvTable, fileModuleName) + " = {};");
-                    appendContaingLine("for key,value in pairs(getfenv()) do");
-                    appendContaingLine("    " + Lookup(EnvTable, fileModuleName) + "[key] = value;");
-                    appendContaingLine("end");
+                    result.AppendLine(Lookup(EnvTable, fileModuleName) + " = {};");
+                    result.AppendLine("for key,value in pairs(getfenv()) do");
+                    result.AppendLine("    " + Lookup(EnvTable, fileModuleName) + "[key] = value;");
+                    result.AppendLine("end");
                 }
-                appendContaingLine(Lookup(LoaderTable, fileModuleName) + " = function()");
-                appendContaingLine("    " + Lookup(LoaderTable, fileModuleName) + " = function() end;");
-
-                depth++;
+                result.AppendLine(Lookup(LoaderTable, fileModuleName) + " = function()");
+                result.AppendLine("    " + Lookup(LoaderTable, fileModuleName) + " = function() end;");
             }
 
             foreach (string lineToCopy in thisFile)
-                result.AppendLine(TabString.Repeat(depth) + lineToCopy);
+                result.AppendLine(TabString + lineToCopy);
             
-            if (depth > 0)
+            if (isEmbedded)
             {
-                depth--;
-
-                appendContaingLine("end;");
+                result.AppendLine("end;");
 
                 if (!fileModuleName.StartsWith(AnonymousModulePrefix))
-                    appendContaingLine("setfenv(" + Lookup(LoaderTable, fileModuleName) + ", " + Lookup(EnvTable, fileModuleName) + ")");
+                    result.AppendLine("setfenv(" + Lookup(LoaderTable, fileModuleName) + ", " + Lookup(EnvTable, fileModuleName) + ")");
             }
 
             return fileModuleName;

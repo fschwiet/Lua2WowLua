@@ -76,6 +76,9 @@
     <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\printA.lua" />
     <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\subpath\printB.lua" />
     <EmbeddedResource Include="Scenarios\require_parameter_is_robustly_accepted\printC.lua" />
+    <EmbeddedResource Include="Scenarios\nonmodule_requires_allow_sharing_of_variables\main.lua" />
+    <EmbeddedResource Include="Scenarios\nonmodule_requires_allow_sharing_of_variables\setAto1.lua" />
+    <EmbeddedResource Include="Scenarios\nonmodule_requires_allow_sharing_of_variables\printA.lua" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
