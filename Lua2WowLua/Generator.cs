@@ -64,7 +64,7 @@ namespace Lua2WowLua
                     {
                         string subModuleName = _loadedModules[requireLocation];
 
-                        thisFile.AddLast("_LOADER_zz_" + subModuleName + "(getfenv());");
+                        thisFile.AddLast("_LOADER_zz_" + subModuleName + "();");
                         thisFile.AddLast("local " + subModuleName + " = _LOADED_zz_" + subModuleName + "_env;");
                     }
  
@@ -123,12 +123,11 @@ namespace Lua2WowLua
                 }
                 else
                 {
-                    appendContaingLine("local " + envVariable + " = nil;");
-                    appendContaingLine("local " + loader + " = function(env)");
-                    appendContaingLine("    local key,value;");
-                    appendContaingLine("    for key,value in pairs(env) do");
-                    appendContaingLine("        " + envVariable + "[key] = value;");
-                    appendContaingLine("    end");
+                    appendContaingLine("local " + envVariable + " = {};");
+                    appendContaingLine("for key,value in pairs(getfenv()) do");
+                    appendContaingLine("    " + envVariable + "[key] = value;");
+                    appendContaingLine("end");
+                    appendContaingLine("local " + loader + " = function()");
                     appendContaingLine("    " + loader + " = function() end;");
 
 
@@ -150,9 +149,7 @@ namespace Lua2WowLua
                     depth--;
 
                     appendContaingLine("end;");
-                    appendContaingLine(envVariable + " = getfenv(" + loader  + ");");
-
-                    //appendContaingLine(loader + "(getfenv());");
+                    appendContaingLine("setfenv(" + loader + ", " + envVariable + ")");
                 }
             }
         }

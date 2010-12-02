@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" total="6" errors="3" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-12-01" time="19:33:21">
+<test-results name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" total="6" errors="3" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-12-01" time="19:43:54">
   <environment nunit-version="2.5.7.10213" clr-version="2.0.50727.4952" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\src\Lua2WowLua" machine-name="NZNZNZ6" user="user" user-domain="nznznz6" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Assembly" name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" executed="True" result="Failure" success="False" time="3.901" asserts="0">
+  <test-suite type="Assembly" name=".\Wow2WowLuaTest\bin\Debug\Wow2WowLuaTest.dll" executed="True" result="Failure" success="False" time="4.386" asserts="0">
     <results>
-      <test-suite type="Namespace" name="Wow2WowLuaTest" executed="True" result="Failure" success="False" time="3.885" asserts="0">
+      <test-suite type="Namespace" name="Wow2WowLuaTest" executed="True" result="Failure" success="False" time="4.362" asserts="0">
         <results>
-          <test-suite type="TestSuite" name="ScenarioTestRunner" executed="True" result="Failure" success="False" time="3.866" asserts="0">
+          <test-suite type="TestSuite" name="ScenarioTestRunner" executed="True" result="Failure" success="False" time="4.359" asserts="0">
             <results>
-              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_a_module\main.lua" executed="True" result="Error" success="False" time="1.130" asserts="0">
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_a_module\main.lua" executed="True" result="Error" success="False" time="1.171" asserts="0">
                 <failure>
                   <message><![CDATA[Should.Core.Exceptions.EqualException : Assert.Equal() Failure
 Position: First difference is at position 71
@@ -17,7 +17,7 @@ Expected: expecting include.a() to be 2, it is: 2
           expecting a to be nil, it is: nil
           
 Actual:   expecting include.a() to be 2, it is: 2
-          expecting a to be nil, it is: function: 0048D1A0
+          expecting a to be nil, it is: function: 004FD1A0
           ]]></message>
                   <stack-trace><![CDATA[at Wow2WowLuaTest.ScenarioTestRunner.<>c__DisplayClass4.<Tests>b__0() in c:\src\Lua2WowLua\Wow2WowLuaTest\ScenarioTestRunner.cs:line 43
 at NJasmine.Core.NJasmineTestMethod.visitIt(String description, Action action, TestPosition position) in c:\src\NJasmine\NJasmine\Core\NJasmineTestMethod.cs:line 91
@@ -30,7 +30,7 @@ at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
 ]]></stack-trace>
                 </failure>
               </test-case>
-              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_Shared_module\main.lua" executed="True" result="Error" success="False" time="1.539" asserts="0">
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\can_require_Shared_module\main.lua" executed="True" result="Error" success="False" time="1.487" asserts="0">
                 <failure>
                   <message><![CDATA[Should.Core.Exceptions.EqualException : Assert.Equal() Failure
 Position: First difference is at position 0
@@ -71,7 +71,7 @@ at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
 ]]></stack-trace>
                 </failure>
               </test-case>
-              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\require_doesnt_reorder_code\main.lua" executed="True" result="Error" success="False" time="0.210" asserts="0">
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\require_doesnt_reorder_code\main.lua" executed="True" result="Error" success="False" time="0.321" asserts="0">
                 <failure>
                   <message><![CDATA[Should.Core.Exceptions.EqualException : Assert.Equal() Failure
 Position: First difference is at position 0
@@ -102,9 +102,9 @@ at NUnit.Core.TestMethod.doTestCase(TestResult testResult)
 ]]></stack-trace>
                 </failure>
               </test-case>
-              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\require_parameter_is_robustly_accepted\main.lua" executed="True" result="Success" success="True" time="0.196" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTestRunner each scenario has the expected files" executed="True" result="Success" success="True" time="0.315" asserts="0" />
-              <test-case name="Wow2WowLuaTest.ScenarioTestRunner can load the scenarios" executed="True" result="Success" success="True" time="0.338" asserts="0" />
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner integration test: C:\Users\user\AppData\Local\Temp\Wow2WowLuaTest.tests\require_parameter_is_robustly_accepted\main.lua" executed="True" result="Success" success="True" time="0.383" asserts="0" />
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner each scenario has the expected files" executed="True" result="Success" success="True" time="0.451" asserts="0" />
+              <test-case name="Wow2WowLuaTest.ScenarioTestRunner can load the scenarios" executed="True" result="Success" success="True" time="0.497" asserts="0" />
             </results>
           </test-suite>
         </results>
