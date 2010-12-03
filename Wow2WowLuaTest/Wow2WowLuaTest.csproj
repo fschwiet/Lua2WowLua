@@ -84,11 +84,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="7za.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Scenarios\can_require_a_module\expected.txt" />
     <Content Include="Scenarios\can_require_Shared_module\expected.txt" />
     <Content Include="Scenarios\require_parameter_is_robustly_accepted\expected.txt" />
