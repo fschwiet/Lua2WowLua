@@ -8,6 +8,6 @@ namespace Lua2WowLua
 {
     public interface IFileFinder
     {
-        Stream Get(string fileLocation);
+        string GetNormalizedFilepath(string fileLocation);
     }
 }

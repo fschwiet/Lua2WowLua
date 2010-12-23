@@ -23,8 +23,6 @@ namespace Lua2WowLua
         }
 
 
-        Dictionary<string, string> _loadedModules = new Dictionary<string, string>();
-
         public Generator(IFileFinder fileFinder)
         {
             _fileFinder = fileFinder;
@@ -45,37 +43,31 @@ namespace Lua2WowLua
             result.AppendLine(EnvTable + " = {}");
             result.AppendLine(LoaderTable + " = {}");
 
-            ProcessFile(null, LoadStream(file), result, false);
+            ProcessFile(LoadStream(file), result, null);
 
             return result.ToString();
         }
 
-        string ProcessFile(string location, IEnumerable<string> file, StringBuilder result, bool isEmbedded)
+        string ProcessFile(IEnumerable<string> file, StringBuilder result, LinkedList<string> afterOuterContextAccumulator)
         {
             var tokens = Tokenizer.Tokenize(file);
 
-            string fileModuleName = null;
+            string referenceName = null;
+            bool referencingModule = false;
 
-            LinkedList<string> thisFile = new LinkedList<string>();
+            LinkedList<string> afterAccumulator = new LinkedList<string>();
 
             foreach(var token in tokens)
             {
                 if (token is RequireToken)
                 {
                     string requireValue = (token as RequireToken).Value;
-                    IEnumerable<string> requiredFile = null;
+                    string filePath = _fileFinder.GetNormalizedFilepath(requireValue);
 
-                    using (Stream requireStream = _fileFinder.Get(requireValue))
-                    {
-                        requiredFile = LoadStream(requireStream);
-                    }
+                    string subModuleName = LoadRequireIfNecessaryAndGetModuleName(filePath, result, afterAccumulator);
 
-                    string subModuleName = ProcessFile(requireValue, requiredFile, result, true);
-
-                    thisFile.AddLast(Lookup(LoaderTable, subModuleName) + "();");
-
-                    if (!subModuleName.StartsWith(AnonymousModulePrefix))
-                        thisFile.AddLast("local " + subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
+                    if (subModuleName != null)
+                        afterAccumulator.AddLast("local " + subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
 
                 }
                 else if (token is UnhandledRequireToken)
@@ -85,13 +77,11 @@ namespace Lua2WowLua
                 }
                 else if (token is SeeallModuleToken)
                 {
-                    if (fileModuleName != null)
+                    if (referenceName != null)
                         OnFileError(file, token, "A second module expression was found in the same file.");
 
-                    fileModuleName = (token as SeeallModuleToken).Value;
-
-                    if (location != null)
-                        _loadedModules[location] = fileModuleName;
+                    referenceName = (token as SeeallModuleToken).Value;
+                    referencingModule = true;
                 }
                 else if (token is UnhandledModuleToken)
                 {
@@ -100,7 +90,7 @@ namespace Lua2WowLua
                 }
                 else if (token is OtherToken)
                 {
-                    thisFile.AddLast((token as OtherToken).Value);
+                    afterAccumulator.AddLast((token as OtherToken).Value);
                 }
                 else
                 {
@@ -108,33 +98,47 @@ namespace Lua2WowLua
                 }
             }
             
-            fileModuleName = fileModuleName ?? (AnonymousModulePrefix + ++_anonymousObjectIndex);
+            referenceName = referenceName ?? (AnonymousModulePrefix + ++_anonymousObjectIndex);
 
-            if (isEmbedded)
+            if (afterOuterContextAccumulator != null)
             {
-                if (!fileModuleName.StartsWith(AnonymousModulePrefix))
+                if (referencingModule)
                 {
-                    result.AppendLine(Lookup(EnvTable, fileModuleName) + " = {};");
+                    result.AppendLine(Lookup(EnvTable, referenceName) + " = {};");
                     result.AppendLine("for key,value in pairs(getfenv()) do");
-                    result.AppendLine("    " + Lookup(EnvTable, fileModuleName) + "[key] = value;");
+                    result.AppendLine("    " + Lookup(EnvTable, referenceName) + "[key] = value;");
                     result.AppendLine("end");
                 }
-                result.AppendLine(Lookup(LoaderTable, fileModuleName) + " = function()");
-                result.AppendLine("    " + Lookup(LoaderTable, fileModuleName) + " = function() end;");
+                result.AppendLine(Lookup(LoaderTable, referenceName) + " = function()");
+                result.AppendLine("    " + Lookup(LoaderTable, referenceName) + " = function() end;");
             }
 
-            foreach (string lineToCopy in thisFile)
+            foreach (string lineToCopy in afterAccumulator)
                 result.AppendLine(TabString + lineToCopy);
-            
-            if (isEmbedded)
+
+            if (afterOuterContextAccumulator != null)
             {
                 result.AppendLine("end;");
 
-                if (!fileModuleName.StartsWith(AnonymousModulePrefix))
-                    result.AppendLine("setfenv(" + Lookup(LoaderTable, fileModuleName) + ", " + Lookup(EnvTable, fileModuleName) + ")");
+                if (referencingModule)
+                    result.AppendLine("setfenv(" + Lookup(LoaderTable, referenceName) + ", " + Lookup(EnvTable, referenceName) + ")");
+
+                afterOuterContextAccumulator.AddLast(Lookup(LoaderTable, referenceName) + "();");
             }
 
-            return fileModuleName;
+            return referencingModule ? referenceName : null;
+        }
+
+        string LoadRequireIfNecessaryAndGetModuleName(string filePath, StringBuilder result, LinkedList<string> afterOuterContextAccumulator)
+        {
+            IEnumerable<string> requiredFile = null;
+
+            using (Stream requireStream = File.OpenRead(filePath))
+            {
+                requiredFile = LoadStream(requireStream);
+            }
+
+            return ProcessFile(requiredFile, result, afterOuterContextAccumulator);
         }
 
         void OnFileError(IEnumerable<string> file, IToken token, string description)

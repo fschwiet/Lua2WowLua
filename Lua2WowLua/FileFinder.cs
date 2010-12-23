@@ -15,9 +15,9 @@ namespace Lua2WowLua
             _rootpath = rootpath;
         }
 
-        public Stream Get(string fileLocation)
+        public string GetNormalizedFilepath(string fileLocation)
         {
-            return File.OpenRead(Path.Combine(_rootpath, fileLocation + ".lua"));
+            return Path.Combine(_rootpath, fileLocation + ".lua");
         }
     }
 }

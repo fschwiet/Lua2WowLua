@@ -110,7 +110,7 @@ namespace Wow2WowLuaTest
                 }
                 catch
                 {
-                    Console.WriteLine("Error reported running script with contents:");
+                    Console.WriteLine("Error reported running script with contents at " + filepath);
                     Console.WriteLine(File.ReadAllText(filepath));
                     throw;
                 }
