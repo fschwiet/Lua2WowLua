@@ -67,7 +67,7 @@ namespace Lua2WowLua
                     string subModuleName = LoadRequireIfNecessaryAndGetModuleName(filePath, result, afterAccumulator);
 
                     if (subModuleName != null)
-                        afterAccumulator.AddLast("local " + subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
+                        afterAccumulator.AddLast(subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
 
                 }
                 else if (token is UnhandledRequireToken)
