@@ -38,9 +38,18 @@ namespace Wow2WowLuaTest
 
                     File.WriteAllText(test.SourceProduced, resultSource, Encoding.ASCII);
 
-                    string actualOutput = RunLuaFile(test.SourceProduced);
+                    try
+                    {
+                        string actualOutput = RunLuaFile(test.SourceProduced);
 
-                    actualOutput.Should().Equal(expectedOutput);
+                        actualOutput.Should().Equal(expectedOutput);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error reported running script with contents at " + test.SourceProduced);
+                        Console.WriteLine(File.ReadAllText(test.SourceProduced));
+                        throw;
+                    }
                 });
             }
 
@@ -104,17 +113,7 @@ namespace Wow2WowLuaTest
 
                 var errorText = luaProcess.StandardError.ReadToEnd();
 
-                try
-                {
-                    errorText.Should().Equal("");
-                }
-                catch
-                {
-                    Console.WriteLine("Error reported running script with contents at " + filepath);
-                    Console.WriteLine(File.ReadAllText(filepath));
-                    throw;
-                }
-
+                errorText.Should().Equal("");
 
                 return result;
             }

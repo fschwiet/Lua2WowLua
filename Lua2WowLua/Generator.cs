@@ -10,12 +10,14 @@ namespace Lua2WowLua
 {
     public class Generator
     {
-        readonly IFileFinder _fileFinder;
         const string TabString = "    ";
         public static int _anonymousObjectIndex = 0;
         static readonly string EnvTable = "_ZZZ_env";
         static readonly string LoaderTable = "_ZZZ_loader";
         static readonly string AnonymousModulePrefix = "_zzz_module";
+
+        readonly IFileFinder _fileFinder;
+        Dictionary<string, string> _modulesLoadedByFilepath;
 
         static string Lookup(string tableName, string valueName)
         {
@@ -31,6 +33,7 @@ namespace Lua2WowLua
         public string Process(string filepath)
         {
             StringBuilder result = new StringBuilder();
+            _modulesLoadedByFilepath = new Dictionary<string, string>();
 
             result.AppendLine(EnvTable + " = {}");
             result.AppendLine(LoaderTable + " = {}");
@@ -123,9 +126,16 @@ namespace Lua2WowLua
         {
             string normalizedFilepath = new Uri(filePath).LocalPath;
 
+            if (_modulesLoadedByFilepath.ContainsKey(normalizedFilepath))
+                return _modulesLoadedByFilepath[normalizedFilepath];
+
             IEnumerable<string> requiredFile = File.ReadAllLines(normalizedFilepath);
 
-            return ProcessFile(requiredFile, result, afterOuterContextAccumulator);
+            string moduleNameOrNull = ProcessFile(requiredFile, result, afterOuterContextAccumulator);
+
+            _modulesLoadedByFilepath[normalizedFilepath] = moduleNameOrNull;
+
+            return moduleNameOrNull;
         }
 
         void OnFileError(IEnumerable<string> file, IToken token, string description)
