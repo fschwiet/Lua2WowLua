@@ -24,13 +24,10 @@ namespace Lua2WowLua.Snapin
             var fileFinder = new FileFinder(Source.Directory.FullName);
 
             Generator generator = new Generator(fileFinder);
-            
-            using (var source = File.OpenRead(Source.FullName))
-            {
-                string result = generator.Process(source);
-                
-                base.WriteObject(result);
-            }
+
+            string result = generator.Process(Source.FullName);
+
+            WriteObject(result);
         }
 
         protected override void EndProcessing()

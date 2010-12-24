@@ -30,20 +30,12 @@ namespace Lua2WowLua
 
         public string Process(string filepath)
         {
-            using (var file = File.OpenRead(filepath))
-            {
-                return Process(file);
-            }
-        }
-
-        public string Process(Stream file)
-        {
             StringBuilder result = new StringBuilder();
 
             result.AppendLine(EnvTable + " = {}");
             result.AppendLine(LoaderTable + " = {}");
 
-            ProcessFile(LoadStream(file), result, null);
+            ProcessFile(File.ReadAllLines(filepath), result, null);
 
             return result.ToString();
         }
@@ -131,12 +123,9 @@ namespace Lua2WowLua
 
         string LoadRequireIfNecessaryAndGetModuleName(string filePath, StringBuilder result, LinkedList<string> afterOuterContextAccumulator)
         {
-            IEnumerable<string> requiredFile = null;
+            string normalizedFilepath = new Uri(filePath).LocalPath;
 
-            using (Stream requireStream = File.OpenRead(filePath))
-            {
-                requiredFile = LoadStream(requireStream);
-            }
+            IEnumerable<string> requiredFile = File.ReadAllLines(normalizedFilepath);
 
             return ProcessFile(requiredFile, result, afterOuterContextAccumulator);
         }
@@ -154,23 +143,6 @@ namespace Lua2WowLua
             }
 
             throw new Exception(String.Format("{0}, line (not found): {1}", description, token.LineNumber));
-        }
-
-        public static IEnumerable<string> LoadStream(Stream stream)
-        {
-            List<string> result = new List<string>();
-
-            using (var fileReader = new StreamReader(stream))
-            {
-                string line = null;
-
-                while ((line = fileReader.ReadLine()) != null)
-                {
-                    result.Add(line);
-                }
-            }
-
-            return result;
         }
     }
 }
