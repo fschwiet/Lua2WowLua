@@ -8,16 +8,23 @@ namespace Lua2WowLua
 {
     public class FileFinder : IFileFinder
     {
-        readonly string _rootpath;
+        readonly IEnumerable<string> _includes;
 
-        public FileFinder(string rootpath)
+        public FileFinder(IEnumerable<string> includes)
         {
-            _rootpath = rootpath;
+            _includes = includes;
         }
 
         public string GetNormalizedFilepath(string fileLocation)
         {
-            return Path.Combine(_rootpath, fileLocation + ".lua");
+            foreach(var include in _includes)
+            {
+                var potentialFile = Path.Combine(include, fileLocation + ".lua");
+                if (File.Exists(potentialFile))
+                    return potentialFile;
+            }
+
+            throw new FileNotFoundException("Could not locate file referenced as '{" + fileLocation + "}'.");
         }
     }
 }

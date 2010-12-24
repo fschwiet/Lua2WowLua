@@ -32,7 +32,7 @@ namespace Wow2WowLuaTest
 
                     string expectedOutput = File.ReadAllText(test.ExpectedOutput);
 
-                    Generator sut = new Generator(new FileFinder(test.SourcePath));
+                    Generator sut = new Generator(new FileFinder(new [] { test.SourcePath }));
 
                     var resultSource = sut.Process(test.MainSource);
 

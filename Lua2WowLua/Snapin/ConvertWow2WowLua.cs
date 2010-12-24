@@ -13,6 +13,9 @@ namespace Lua2WowLua.Snapin
         [Parameter(HelpMessage = "The lua file to process.", ValueFromPipeline = true)]
         public FileInfo Source;
 
+        [Parameter(HelpMessage = "Directories to search when referencing files.")]
+        public DirectoryInfo[] Includes;
+
         protected override void BeginProcessing()
         {
         }
@@ -21,7 +24,9 @@ namespace Lua2WowLua.Snapin
         {
             System.IO.Directory.SetCurrentDirectory(this.SessionState.Path.CurrentLocation.Path);
 
-            var fileFinder = new FileFinder(Source.Directory.FullName);
+            var includes = (Includes ?? new[] {Source.Directory}).Select(d => d.FullName);
+
+            var fileFinder = new FileFinder(new []{Source.Directory.FullName});
 
             Generator generator = new Generator(fileFinder);
 
