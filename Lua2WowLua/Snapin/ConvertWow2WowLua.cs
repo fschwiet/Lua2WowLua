@@ -16,6 +16,9 @@ namespace Lua2WowLua.Snapin
         [Parameter(HelpMessage = "Directories to search when referencing files.")]
         public DirectoryInfo[] Includes;
 
+        [Parameter(HelpMessage = "The name of the global value acting as the included source's namespace.")] 
+        public string Namespace;
+
         protected override void BeginProcessing()
         {
         }
@@ -28,7 +31,7 @@ namespace Lua2WowLua.Snapin
 
             var fileFinder = new FileFinder(new []{Source.Directory.FullName});
 
-            Generator generator = new Generator(fileFinder);
+            Generator generator = new Generator(fileFinder, Namespace);
 
             string result = generator.Process(Source.FullName);
 

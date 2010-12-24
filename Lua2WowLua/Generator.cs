@@ -12,22 +12,23 @@ namespace Lua2WowLua
     {
         const string TabString = "    ";
         public static int _anonymousObjectIndex = 0;
-        static readonly string EnvTable = "_ZZZ_env";
-        static readonly string LoaderTable = "_ZZZ_loader";
-        static readonly string AnonymousModulePrefix = "_zzz_module";
+
+        readonly string Namespace;
+        readonly string EnvTable;
+        readonly string LoaderTable;
+        readonly string AnonymousModulePrefix;
 
         readonly IFileFinder _fileFinder;
         Dictionary<string, string> _modulesLoadedByFilepath;
 
-        static string Lookup(string tableName, string valueName)
-        {
-            return tableName + "[\"" + valueName + "\"]";
-        }
-
-
-        public Generator(IFileFinder fileFinder)
+        public Generator(IFileFinder fileFinder, string @namespace)
         {
             _fileFinder = fileFinder;
+
+            Namespace = @namespace;
+            EnvTable = @namespace + "_env";
+            LoaderTable = @namespace + "_loader";;
+            AnonymousModulePrefix = @namespace + "_module";
         }
 
         public string Process(string filepath)
@@ -35,10 +36,16 @@ namespace Lua2WowLua
             StringBuilder result = new StringBuilder();
             _modulesLoadedByFilepath = new Dictionary<string, string>();
 
+            result.AppendLine(Namespace + " = {};");
+            result.AppendLine("setmetatable(" + Namespace + ", { __index = _G });");
+            result.AppendLine("setfenv(function()");
+
             result.AppendLine(EnvTable + " = {}");
             result.AppendLine(LoaderTable + " = {}");
 
             ProcessFile(File.ReadAllLines(filepath), result, null);
+
+            result.Append("end," + Namespace + ")();");
 
             return result.ToString();
         }
@@ -151,6 +158,11 @@ namespace Lua2WowLua
             }
 
             throw new Exception(String.Format("{0}, line (not found): {1}", description, token.LineNumber));
+        }
+
+        static string Lookup(string tableName, string valueName)
+        {
+            return tableName + "[\"" + valueName + "\"]";
         }
     }
 }
