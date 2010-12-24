@@ -80,6 +80,9 @@
     <None Include="Scenarios\nonmodule_requires_allow_sharing_of_variables_and_module_references\modu.lua" />
     <None Include="Scenarios\nonmodule_requires_allow_sharing_of_variables_and_module_references\printA.lua" />
     <None Include="Scenarios\nonmodule_requires_allow_sharing_of_variables_and_module_references\setAto1.lua" />
+    <None Include="Scenarios\references_accessing_globals\include.lua" />
+    <None Include="Scenarios\references_accessing_globals\main.lua" />
+    <None Include="Scenarios\references_accessing_globals\module.lua" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -88,6 +91,7 @@
     <Content Include="Scenarios\can_require_a_module\expected.txt" />
     <Content Include="Scenarios\can_require_Shared_module\expected.txt" />
     <Content Include="Scenarios\nonmodule_requires_allow_sharing_of_variables_and_module_references\expected.txt" />
+    <Content Include="Scenarios\references_accessing_globals\expected.txt" />
     <Content Include="Scenarios\require_parameter_is_robustly_accepted\expected.txt" />
     <Content Include="Scenarios\require_doesnt_reorder_code\expected.txt" />
   </ItemGroup>

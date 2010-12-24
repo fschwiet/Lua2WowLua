@@ -8,7 +8,7 @@ using System.Text;
 namespace Lua2WowLua.Snapin
 {
     [Cmdlet("convert", "Lua2WowLua")]
-    public class ConvertWow2WowLua : PSCmdlet, IDisposable
+    public class ConvertWow2WowLua : PSCmdlet
     {
         [Parameter(HelpMessage = "The lua file to process.", ValueFromPipeline = true)]
         public FileInfo Source;
@@ -32,15 +32,6 @@ namespace Lua2WowLua.Snapin
 
         protected override void EndProcessing()
         {
-        }
-
-        public void Dispose()
-        {
-        }
-
-        ~ConvertWow2WowLua()
-        {
-            Dispose();
         }
     }
 }

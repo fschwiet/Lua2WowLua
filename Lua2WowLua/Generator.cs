@@ -97,9 +97,7 @@ namespace Lua2WowLua
                 if (referencingModule)
                 {
                     result.AppendLine(Lookup(EnvTable, referenceName) + " = {};");
-                    result.AppendLine("for key,value in pairs(getfenv()) do");
-                    result.AppendLine("    " + Lookup(EnvTable, referenceName) + "[key] = value;");
-                    result.AppendLine("end");
+                    result.AppendLine("setmetatable(" + Lookup(EnvTable, referenceName) + ", { __index = getfenv() });");
                 }
                 result.AppendLine(Lookup(LoaderTable, referenceName) + " = function()");
                 result.AppendLine("    " + Lookup(LoaderTable, referenceName) + " = function() end;");
