@@ -29,7 +29,7 @@ namespace Lua2WowLua.Snapin
 
             var includes = (Includes ?? new[] {Source.Directory}).Select(d => d.FullName);
 
-            var fileFinder = new FileFinder(new []{Source.Directory.FullName});
+            var fileFinder = new FileFinder(includes);
 
             Generator generator = new Generator(fileFinder, Namespace);
 

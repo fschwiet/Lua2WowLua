@@ -70,7 +70,6 @@ namespace Lua2WowLua
 
                     if (subModuleName != null)
                         afterAccumulator.AddLast(subModuleName + " = " + Lookup(EnvTable, subModuleName) + ";");
-
                 }
                 else if (token is UnhandledRequireToken)
                 {
